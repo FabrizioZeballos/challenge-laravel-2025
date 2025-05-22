@@ -24,4 +24,14 @@ class OrderController extends Controller
             'data' => $order,
         ], 201);
     }
+
+    public function show($id): JsonResponse
+    {
+        $order = $this->orderService->getOrderById($id);
+    
+        return response()->json([
+            'message' => 'Order retrieved successfully',
+            'data' => $order,
+        ]);
+    }
 }

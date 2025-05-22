@@ -9,12 +9,17 @@ class OrderService implements OrderServiceInterface
     protected OrderRepositoryInterface $orderRepository;
 
     public function __construct(OrderRepositoryInterface $orderRepository)
-    {
-        $this->orderRepository = $orderRepository;
-    }
+        {
+            $this->orderRepository = $orderRepository;
+        }
 
     public function createOrder(array $data)
-    {
-        return $this->orderRepository->create($data);
-    }
+        {
+            return $this->orderRepository->create($data);
+        }
+
+    public function getOrderById(int $id)
+        {
+            return $this->orderRepository->findByIdWithItems($id);
+        }
 }
