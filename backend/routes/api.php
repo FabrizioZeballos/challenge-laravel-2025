@@ -14,3 +14,5 @@ Route::get('/ping', function () {
 Route::post('/orders', [OrderController::class, 'store']);
 
 Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+Route::post('/orders/{id}/advance', [OrderController::class, 'advance']);

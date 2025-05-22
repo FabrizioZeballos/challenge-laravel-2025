@@ -34,4 +34,14 @@ class OrderController extends Controller
             'data' => $order,
         ]);
     }
+
+    public function advance(int $id): JsonResponse
+    {
+        $order = $this->orderService->advanceOrderState($id);
+    
+        return response()->json([
+            'message' => 'Order state advanced successfully',
+            'data' => $order,
+        ]);
+    }
 }
