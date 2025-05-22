@@ -25,6 +25,12 @@ class OrderController extends Controller
         ], 201);
     }
 
+    public function getActiveOrders(): JsonResponse
+    {
+        $orders = $this->orderService->getActiveOrders();
+        return response()->json($orders);
+    }
+
     public function show($id): JsonResponse
     {
         $order = $this->orderService->getOrderById($id);

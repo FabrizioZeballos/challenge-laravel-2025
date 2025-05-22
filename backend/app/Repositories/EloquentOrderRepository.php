@@ -31,6 +31,11 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         });
     }
 
+    public function findActiveOrders(): array
+    {
+        return Order::where('status', '!=', 'delivered')->get()->toArray();
+    }
+
     public function findByIdWithItems(int $id)
     {
         return Order::with('items')->findOrFail($id);
