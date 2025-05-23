@@ -15,11 +15,6 @@ class OrderService implements OrderServiceInterface
         $this->orderRepository = $orderRepository;
     }
 
-    public function createOrder(array $data)
-    {
-        return $this->orderRepository->create($data);
-    }
-
     public function getActiveOrders(): array
     {
         return Cache::remember('active_orders', 30, function () {
@@ -31,6 +26,11 @@ class OrderService implements OrderServiceInterface
     public function getOrderById(int $id)
     {
         return $this->orderRepository->findByIdWithItems($id);
+    }
+
+    public function createOrder(array $data)
+    {
+        return $this->orderRepository->create($data);
     }
 
     public function advanceOrderState(int $id)

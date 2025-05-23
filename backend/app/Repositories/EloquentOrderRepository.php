@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentOrderRepository implements OrderRepositoryInterface
 {
+    public function findActiveOrders(): array
+    {
+        return Order::where('status', '!=', 'delivered')->get()->toArray();
+    }
+
+    public function findByIdWithItems(int $id)
+    {
+        return Order::with('items')->findOrFail($id);
+    }
+
     public function create(array $data)
     {
         return DB::transaction(function () use ($data) {
@@ -29,16 +39,6 @@ class EloquentOrderRepository implements OrderRepositoryInterface
         
             return $order->load('items');
         });
-    }
-
-    public function findActiveOrders(): array
-    {
-        return Order::where('status', '!=', 'delivered')->get()->toArray();
-    }
-
-    public function findByIdWithItems(int $id)
-    {
-        return Order::with('items')->findOrFail($id);
     }
 
     public function updateStatus(int $id, string $status)

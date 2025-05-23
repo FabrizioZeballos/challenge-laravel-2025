@@ -15,16 +15,6 @@ class OrderController extends Controller
         $this->orderService = $orderService;
     }
 
-    public function store(StoreOrderRequest $request): JsonResponse
-    {
-        $order = $this->orderService->createOrder($request->validated());
-
-        return response()->json([
-            'message' => 'Order created successfully',
-            'data' => $order,
-        ], 201);
-    }
-
     public function getActiveOrders(): JsonResponse
     {
         $orders = $this->orderService->getActiveOrders();
@@ -39,6 +29,16 @@ class OrderController extends Controller
             'message' => 'Order retrieved successfully',
             'data' => $order,
         ]);
+    }
+
+    public function store(StoreOrderRequest $request): JsonResponse
+    {
+        $order = $this->orderService->createOrder($request->validated());
+
+        return response()->json([
+            'message' => 'Order created successfully',
+            'data' => $order,
+        ], 201);
     }
 
     public function advance(int $id): JsonResponse
