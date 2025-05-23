@@ -14,17 +14,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-            // 'name' => 'Test User',
-            // 'email' => 'test@example.com',
-        // ]);
-
-        Order::factory(5)->create()->each(function ($order) {
-        // For each order, create between 1 and 4 order items
-        $orderItems = OrderItem::factory(rand(1, 4))->make(); // Make() just creates the models in memory, not in the database.
-        $order->items()->saveMany($orderItems);
-    });
+        if (Order::count() === 0) {
+            Order::factory(5)->create()->each(function ($order) {
+                // For each order, create between 1 and 4 order items
+                $orderItems = OrderItem::factory(rand(1, 4))->make(); // Make() just creates the models in memory, not in the database.
+                $order->items()->saveMany($orderItems);
+            });
+        } else {
+            echo "⚠️ Orders table already seeded. Skipping...\n";
+        }
     }
 }

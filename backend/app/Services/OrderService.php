@@ -49,8 +49,10 @@ class OrderService implements OrderServiceInterface
         }
     
         if ($newStatus === 'delivered') {
+            \Log::info("Order #{$id} status changed from '$order->status' to '$newStatus' at " . now());
             $this->orderRepository->delete($id);
-            return null; // Or return a message that order was deleted
+            Cache::forget('active_orders');
+            return null;
         } else {
             return $this->orderRepository->updateStatus($id, $newStatus);
         }

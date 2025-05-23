@@ -19,7 +19,7 @@ class OrderFactory extends Factory
         return [
             'client_name' => $this->faker->name(),
             'total' => $this->faker->randomFloat(2, 20, 200),
-            'status' => $this->faker->randomElement(['initiated', 'sent', 'delivered']),
+            'status' => $this->faker->randomElement(['initiated', 'sent']),
         ];
     }
 }

@@ -44,8 +44,11 @@ class EloquentOrderRepository implements OrderRepositoryInterface
     public function updateStatus(int $id, string $status)
     {
         $order = Order::findOrFail($id);
+        $oldStatus = $order->status;
         $order->status = $status;
         $order->save();
+
+        \Log::info(message: "Order #$id status changed from '$oldStatus' to '$status' at " . now());
     
         return $order;
     }
