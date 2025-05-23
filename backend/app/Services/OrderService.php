@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Repositories\OrderRepositoryInterface;
+use Illuminate\Support\Facades\Cache;
+
 
 class OrderService implements OrderServiceInterface
 {
@@ -20,7 +22,10 @@ class OrderService implements OrderServiceInterface
 
     public function getActiveOrders(): array
     {
-        return $this->orderRepository->findActiveOrders();
+        return Cache::remember('active_orders', 30, function () {
+            \Log::info('Cache miss: fetching active orders from DB');
+            return $this->orderRepository->findActiveOrders();
+        });
     }
 
     public function getOrderById(int $id)

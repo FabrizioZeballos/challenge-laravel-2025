@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: laravel_app
+        container_name: laravel_app
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        ports:
+            - "9000:9000"
+        depends_on:
+            - postgres
+            - redis
+        command: php artisan serve --host=0.0.0.0 --port=9000
+
+    postgres:
+        image: postgres:15
+        container_name: laravel_postgres
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 777fabri777
+        ports:
+            - "5433:5432"
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+
+    redis:
+        image: redis:7
+        container_name: laravel_redis
+        restart: unless-stopped
+        ports:
+            - "6379:6379"
+
+volumes:
+    pgdata:
